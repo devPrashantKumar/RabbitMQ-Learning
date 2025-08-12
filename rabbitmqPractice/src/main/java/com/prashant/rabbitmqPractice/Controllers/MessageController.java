@@ -1,26 +1,38 @@
 package com.prashant.rabbitmqPractice.Controllers;
 
-import com.prashant.rabbitmqPractice.Services.ProducerService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/api")
 public class MessageController {
 
-    private final ProducerService producerService;
+    private final RabbitTemplate rabbitTemplate;
 
-    public MessageController(ProducerService producerService) {
-        this.producerService = producerService;
+    public MessageController(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
     }
 
-    @PostMapping("/send")
-    public ResponseEntity<String> send(@RequestBody String message) {
-        producerService.sendMessage(message);
-        return ResponseEntity.ok("Message sent");
+    @PostMapping("/send/direct/{key}")
+    public String sendDirect(@PathVariable String key, @RequestBody String message) {
+        rabbitTemplate.convertAndSend("directExchange", key, message);
+        System.out.println("Sent to Direct Exchange with key: " + key);
+        return "Message sent";
+    }
+
+    @PostMapping("/send/fanout")
+    public String sendFanout(@RequestBody String message) {
+        rabbitTemplate.convertAndSend("fanoutExchange", "", message);
+        System.out.println("Sent to Fanout Exchange");
+        return "Fanout message sent";
+    }
+
+    @PostMapping("/send/topic/{key}")
+    public String sendTopic(@PathVariable String key, @RequestBody String message) {
+        rabbitTemplate.convertAndSend("topicExchange", key, message);
+        System.out.println("Sent to Topic Exchange with key: "+ key);
+        return "Topic message sent with key: " + key;
     }
 }
 
