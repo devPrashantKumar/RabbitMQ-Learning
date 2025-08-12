@@ -36,4 +36,14 @@ public class ConsumerService {
     public void listenTopic2(String message) {
         System.out.println("Topic Queue 2 received: " + message);
     }
+
+    @RabbitListener(queues = "headersQueue1")
+    public void listenHeaders(String message) {
+        System.out.println("Headers Queue 1 received: " + message);
+    }
+
+    @RabbitListener(queues = "headersQueue2")
+    public void listenHeaders2(String message) {
+        System.out.println("Headers Queue 2 received: " + message);
+    }
 }

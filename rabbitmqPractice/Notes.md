@@ -28,9 +28,12 @@ curl -X POST "http://localhost:8080/api/send/topic/sports.football" \
 
 #### Header Exchange cURL
 
-
-
-
-curl -X POST http://localhost:8080/api/send \
+curl -X POST http://localhost:8080/api/send/header/1 \
 -H "Content-Type: application/json" \
--d "\"Hello RabbitMQ from cURL\""
+-d "\"Hello PDF Report\""
+
+curl -X POST http://localhost:8080/api/send/header/2 \
+-H "Content-Type: application/json" \
+-d "\"Hello PDF Report\""
+
+
