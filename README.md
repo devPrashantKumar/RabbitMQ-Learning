@@ -50,7 +50,7 @@ docker run -d --hostname rabbitmq-host --name rabbitmq   -p 5672:5672 -p 15672:1
 
 ### 2️⃣ Clone & Run the Project
 ```bash
-git clone https://github.com/your-username/RabbitMQ-Learning.git
+git clone https://github.com/devPrashantKumar/RabbitMQ-Learning.git
 cd RabbitMQ-Learning
 mvn spring-boot:run
 ```
